@@ -1,0 +1,17 @@
+{
+    "source": "Testing",
+    "txnRefNo": "Email-{{txnRefNo}}",
+    "payload": {
+        "from": "noreply@maybank-ib.com",
+        "subject": "MBPNS Testing",
+        "to": "atik.shahriarratul@maybank.com",
+        "cc": "",
+        "bcc": "",
+        "html": "MBPNS HTML Testing",
+        "text": "MBPNS TEXT Testing"
+    },
+    "additionalInfo": {
+        "template_id": 1,
+        "isText": true
+    }
+}

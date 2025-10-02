@@ -1,0 +1,40 @@
+{
+    "txnRefNo": "Email-1758681634",
+    "source": "QR-something",
+    "payload": {
+        "from": "m2u-test@maybank.com",
+        "subject": "test",
+        "to": "hueythien.siah@maybank.com",
+        "cc": "",
+        "bcc": "",
+        "html": "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta http-equiv=\"x-ua-compatible\" , content=\"IE=edge\"><meta name=\"viewport\" , content=\"width=device-width, initial-scale=1\"><style>*{box-sizing:border-box}body{width:100%;text-align:center;font-family:'Helvetica','Arial',sans-serif;overflow-x:hidden}.container{display:inline-block;width:800px;background:#FFF;text-align:start;border:1px solid #E5E5E5}.header{width:100%;height:70px;display:block}.banner{width:100%;height:256px;position:relative}.banner .banner-img{position:absolute;top:0;left:0;width:100%;height:100%}.banner .banner-info{height:100%}.banner-info .floating-circle{position:relative;display:table;width:178px;height:178px;top:39px;left:83px;background:#FECE00;border-radius:50%}.banner-info .text-wrap{display:table-cell;width:168px;height:46px;vertical-align:middle;text-align:center}.banner-info .text-wrap span{font-size:12px}.banner-info .text-wrap .label{font-size:20px;font-weight:bold}.content{text-align:left;padding:32px}.content .message{font-size:16px;line-height:21px}.content .infos{margin-top:30px;padding:26px 40px;width:100%;border:1px solid #CECECE;border-radius:6px}.content .infos table{margin-top:10px;width:100%}.content .infos table tr{line-height:20px;font-size:15px}.content .info-row td{padding:6px 0}.content .info-row td:nth-child(1){text-align:left;letter-spacing:1px}.content .info-row td:nth-child(2){text-align:right;font-weight:bold;letter-spacing:0.5px}.disclaimer{width:100%;padding:24px 32px;color:#7F8086;background:#F1F2F6;font-size:14px}.footer{width:100%;height:100px;display:block}</style></head><body><div class=\"container\"> <img class=\"header\" src=\"cid:img@header.png\" /><div class=\"banner\"> <img class=\"banner-img\" src=\"cid:img@bg_approve.png\" /><div class=\"banner-info\"><div class=\"floating-circle\"><div class=\"text-wrap\"> <span>Your loan/financing is</span> <span class=\"label\">approved</span></div></div></div></div><div class=\"content\"><p class=\"message\"> Dear <b>Andy Eng,</b><br /><br /> Good news! Your Maybank Personal Loan/Financing-i has been approved and the amount has been paid out to your bank account. Log in to Maybank2u now to check your account balance. <br /><br /> Below are your application details:</p><div class=\"infos\"><table><tr class=\"info-row\"><td>Facility</td><td>Personal Financing-i</td></tr><tr class=\"info-row\"><td>Loan/Financing Amount</td><td>RM 9,750</td></tr><tr class=\"info-row\"><td>Tenure</td><td>3 years</td></tr><tr class=\"info-row\"><td>Interest/Profit Rate</td><td>8% p.a</td></tr><tr class=\"info-row\"><td>Monthly Payments</td><td>RM 300</td></tr><tr class=\"info-row\"><td>Payout Account</td><td>Savings Account 123123133213</td></tr><tr class=\"info-row\"><td>Reference Number</td><td>M2908C1675</td></tr></table></div></div><div class=\"disclaimer\"><p> Should you require further assistance, kindly contact our Maybank Group Customer Care at 1-300-88-6688 or email us at mgcc@maybank.com.my. <br /><br /> This is an automatically generated email. Please do not reply to this email.</p></div> <img class=\"footer\" src=\"cid:img@footer.png\" /></div></body></html>"
+    },
+    "additionalInfo": {
+        "template_id": 1,
+        "isText": false,
+        "html_images": [
+            {
+                "filename": "header.png",
+                "base64": ""
+            },
+           {
+               "filename": "bg_approve.png",
+               "base64": ""
+           },
+           {
+               "filename": "footer.png",
+               "base64": ""
+           }
+        ],
+        "attachment_files": [
+            {
+                "filename": "",
+                "base64": ""
+            },
+            {
+                "filename": "",
+                "base64": ""
+            }
+        ]
+    }
+}
