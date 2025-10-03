@@ -1,4 +1,30 @@
 services:
+  # postgres
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    volumes:
+      - ./data/postgres_data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/initdb.d
+      - ./data/postgres/backups:/backups
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgre
+    ports:
+      - "5432:5432"
+    networks:
+      app-network:
+        
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    networks:
+      app-network:
   
   # Mailpit
   mailpit:
@@ -19,9 +45,10 @@ services:
 
 # Volumes
 volumes:
-  sqlserver_data:
-  sqlserver_log:
-  sqlserver_backup:
+  postgres_data:
+  postgres:
+  postgres_backups:
+  
 
 # Networks
 networks:
