@@ -31,7 +31,7 @@ import { useState } from "react"
 import { sendEmail, type EmailPayload } from "@/services/email"
 import { de } from "zod/locales"
 
-const MAX_TOTAL_SIZE = 15 * 1024 * 1024 // 15MB total for all files
+const MAX_TOTAL_SIZE = 150 * 1024 * 1024 // 15MB total for all files
 const ACCEPTED_FILE_TYPES = [
   "image/jpeg",
   "image/jpg",
