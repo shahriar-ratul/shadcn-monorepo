@@ -29,6 +29,7 @@ import {
 import { X, Paperclip, Send, Copy, Check, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { sendEmail, type EmailPayload } from "@/services/email"
+import { de } from "zod/locales"
 
 const MAX_TOTAL_SIZE = 15 * 1024 * 1024 // 15MB total for all files
 const ACCEPTED_FILE_TYPES = [
@@ -46,7 +47,7 @@ const ACCEPTED_FILE_TYPES = [
 
 const formSchema = z.object({
   source: z.string().min(1, { message: "Source is required" }),
-  from: z.string().email({ message: "Please enter a valid email address" }),
+  from: z.email({ message: "Please enter a valid email address" }),
   to: z.string().min(1, { message: "At least one recipient is required" }),
   cc: z.string().optional(),
   bcc: z.string().optional(),
@@ -89,15 +90,15 @@ export function SendEmailForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      source: "",
-      from: "",
-      to: "",
+      source: "QR-something",
+      from: "sama2lokal@maybank.com",
+      to: "atik.shahriarratul@maybank.com",
       cc: "",
       bcc: "",
-      subject: "",
-      emailType: "text",
+      subject: "Test",
+      emailType: "html",
       textBody: "",
-      htmlBody: "",
+      htmlBody: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta http-equiv=\"x-ua-compatible\" , content=\"IE=edge\"><meta name=\"viewport\" , content=\"width=device-width, initial-scale=1\"><style>* {box-sizing: border-box;}body {width: 100%;text-align: center;font-family: 'Helvetica', 'Arial', sans-serif;}.container {display: inline-block;width: 600px;background: #FFF;text-align: start;}.heading {width: inherit;height: 242px;background-repeat: no-repeat;background-size: auto 100%;background-position: right center;position: relative;}.heading .header-img {width: 100%;height: 100%;}.heading .logo {position: absolute;top: 11px;left: 9px;}.heading .floating-circle {position: absolute;width: 134px;height: 134px;left: 62px;top: 77px;background: #FECE00;border-radius: 50%;}.heading .text-wrap {position: absolute;width: 126px;height: 65px;top: 50%;left: 50%;transform: translate(-50%, -50%);text-align: center;padding-top: 10px;}.heading .text-wrap span {font-size: 12px;}.heading .text-wrap .label {font-size: 15px;font-weight: bold;}.content {padding: 24px 46px;}.content .message {font-size: 16px;line-height: 21px;}.content .infos {margin-top: 30px;padding: 30px 27px;width: 506px;box-shadow: 0px 4px 35px rgba(0, 0, 0, 0.2);}.content .infos table {width: 100%;}.content .infos table tr {line-height: 20px;font-size: 15px;}.content .info-row td:nth-child(1) {text-align: start;letter-spacing: 1px;}.content .info-row td:nth-child(2) {text-align: end;font-weight: bold;letter-spacing: 0.5px;}.footer {text-align: center;margin-top: 20px;}.footer > span {font-size: 13px;}</style></head><body><div class=\"container\"><div class=\"heading\"><img class=\"header-img\" src=\"cid:header.png\" /><img src=\"cid:maybank_logo.png\" class=\"logo\"/><div class=\"floating-circle\"><div class=\"text-wrap\"><span class=\"label\">Congratulations!</span><span>Your loan/financing is approved</span></div></div></div><div class=\"content\"><p class=\"message\">Dear <b>Andy Eng,</b><br/><br/>Your Personal Loan/Financing-i has been approved! <br/><br/>Congrats! Go to Maybank2u to check your account balance now.<br/>Your loan/financing details as below:</p><div class=\"infos\"><table><tr class=\"info-row\"><td>Facility</td><td>Personal Financing-i</td></tr><tr class=\"info-row\"><td>Loan/Financing Amount</td><td>RM 9,750</td></tr><tr class=\"info-row\"><td>Tenure</td><td>3 years</td></tr><tr class=\"info-row\"><td>Interest/Profit Rate</td><td>8% p.a</td></tr><tr class=\"info-row\"><td>Monthly Payments</td><td>RM 300</td></tr><tr class=\"info-row\"><td>Payout Account</td><td>Savings Account 123123133213</td></tr><tr class=\"info-row\"><td>Reference Number</td><td>M2908C1675</td></tr></table></div></div><div class=\"footer\"><span>Call <b>1300 8866 88,</b> or log on to <b>www.maybank2u.com.my</b> for more information.</span><img src=\"cid:footer.png\"/></div></div></body></html>",
       autoPrompt: "",
       templateId: "1",
     },
@@ -284,6 +285,17 @@ export function SendEmailForm() {
         isText: isText,
       }
     }
+    if(values.cc) {
+      payload.payload.cc = parseEmails(values.cc)
+    } else {
+      delete payload.payload.cc
+    }
+    if(values.bcc) {
+      payload.payload.bcc = parseEmails(values.bcc)
+    } else {
+      delete payload.payload.bcc
+    }
+
 
     if (isText) {
       // Text email format
@@ -294,23 +306,26 @@ export function SendEmailForm() {
       const generatedHtml = generateHtmlFromPrompt(values.autoPrompt || "", htmlImages)
       payload.payload.html = generatedHtml
       payload.additionalInfo.isText = false
-      payload.additionalInfo.html_images = htmlImages.length > 0
-        ? htmlImages
-        : [{ filename: "", base64: "" }]
-      payload.additionalInfo.attachment_files = files.length > 0
-        ? files.map(f => ({ filename: f.name, base64: f.base64 }))
-        : [{ filename: "", base64: "" }]
+
+      if(htmlImages.length > 0) { 
+        payload.additionalInfo.html_images = htmlImages.map(img => ({ filename: img.filename, base64: img.base64 }))
+      }
+      if(files.length > 0) {
+        payload.additionalInfo.attachment_files = files.map(f => ({ filename: f.name, base64: f.base64 }))
+      }
     } else {
       // HTML email with attachments (manual HTML)
       payload.payload.html = values.htmlBody || ""
       payload.additionalInfo.isText = false
-      payload.additionalInfo.html_images = htmlImages.length > 0
-        ? htmlImages
-        : [{ filename: "", base64: "" }]
-      payload.additionalInfo.attachment_files = files.length > 0
-        ? files.map(f => ({ filename: f.name, base64: f.base64 }))
-        : [{ filename: "", base64: "" }]
+
+      if(htmlImages.length > 0) {
+        payload.additionalInfo.html_images = htmlImages.map(img => ({ filename: img.filename, base64: img.base64 }))
+      }
+      if(files.length > 0) {
+        payload.additionalInfo.attachment_files = files.map(f => ({ filename: f.name, base64: f.base64 }))
+      }
     }
+
 
     const jsonString = JSON.stringify(payload, null, 4)
     setJsonPayload(jsonString)
@@ -368,7 +383,9 @@ export function SendEmailForm() {
                   <FormItem>
                     <FormLabel>Source</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., QR-something, Testing" {...field} />
+                      <Input
+                        
+                        placeholder="e.g., QR-something, Testing" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
